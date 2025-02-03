@@ -1,0 +1,38 @@
+import random
+
+def elegir_palabra():
+    palabras = ["python", "visual", "studio", "codigo", "programa"]
+    return random.choice(palabras)
+
+def mostrar_progreso(palabra, letras_adivinadas):
+    return " ".join([letra if letra in letras_adivinadas else "_" for letra in palabra])
+
+def jugar():
+    palabra = elegir_palabra()
+    letras_adivinadas = set()
+    intentos = 6
+    
+    print("Bienvenido al juego del ahorcado!")
+    
+    while intentos > 0:
+        print("\nPalabra:", mostrar_progreso(palabra, letras_adivinadas))
+        letra = input("Ingresa una letra: ").lower()
+        
+        if letra in letras_adivinadas:
+            print("Ya intentaste con esa letra.")
+            continue
+        
+        letras_adivinadas.add(letra)
+        
+        if letra not in palabra:
+            intentos -= 1
+            print(f"Incorrecto! Te quedan {intentos} intentos.")
+        
+        if set(palabra).issubset(letras_adivinadas):
+            print("Felicidades! Adivinaste la palabra:", palabra)
+            break
+    else:
+        print("Perdiste! La palabra era:", palabra)
+
+if __name__ == "__main__":
+    jugar()
