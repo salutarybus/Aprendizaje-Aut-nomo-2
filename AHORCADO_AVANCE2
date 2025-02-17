@@ -1,0 +1,52 @@
+import random
+
+def elegir_palabra():
+    """Elige una palabra aleatoria de la lista."""
+    palabras = ["python", "visual", "studio", "codigo", "programa"]
+    return random.choice(palabras)
+
+def mostrar_progreso(palabra, letras_adivinadas):
+    """Muestra la palabra con las letras adivinadas y guiones para las letras restantes."""
+    return " ".join([letra if letra in letras_adivinadas else "_" for letra in palabra])
+
+def validar_entrada():
+    """Solicita una letra y valida que sea una sola letra del alfabeto."""
+    while True:
+        letra = input("Ingresa una letra: ").lower()
+        if len(letra) == 1 and letra.isalpha():  # Verifica que sea una sola letra
+            return letra
+        print("Entrada no válida. Ingresa solo una letra.")
+
+def jugar():
+    """Ejecuta la lógica principal del juego del ahorcado."""
+    palabra = elegir_palabra()
+    letras_adivinadas = set()
+    intentos = 6
+    
+    print("Bienvenido al juego del ahorcado!")
+    
+    while intentos > 0:
+        print("\nPalabra:", mostrar_progreso(palabra, letras_adivinadas))
+        letra = validar_entrada()
+        
+        # Verifica si la letra ya fue ingresada
+        if letra in letras_adivinadas:
+            print("Ya intentaste con esa letra.")
+            continue
+        
+        letras_adivinadas.add(letra)
+        
+        # Condición para verificar si la letra no está en la palabra
+        if letra not in palabra:
+            intentos -= 1
+            print(f"Incorrecto! Te quedan {intentos} intentos.")
+        
+        # Condición de victoria: si todas las letras de la palabra han sido adivinadas
+        if set(palabra).issubset(letras_adivinadas):
+            print("Felicidades! Adivinaste la palabra:", palabra)
+            break
+    else:
+        print("Perdiste! La palabra era:", palabra)
+
+if __name__ == "__main__":
+    jugar()
